@@ -1,0 +1,13 @@
+appId: com.hosts-manager.app
+productName: Hosts Manager
+directories:
+  buildResources: resources
+  output: dist
+files:
+  - out/**/*
+mac:
+  target:
+    - dmg
+    - zip
+  category: public.app-category.utilities
+  icon: resources/icon.png
