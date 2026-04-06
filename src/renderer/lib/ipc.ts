@@ -16,6 +16,8 @@ declare global {
         hostname: string
       ) => Promise<HostGroup[]>
       deleteEntry: (groupId: string, entryId: string) => Promise<HostGroup[]>
+      sync: () => Promise<void>
+      quit: () => Promise<void>
     }
   }
 }

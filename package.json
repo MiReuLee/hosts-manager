@@ -7,7 +7,7 @@
     "dev": "electron-vite dev",
     "build": "electron-vite build",
     "preview": "electron-vite preview",
-    "package": "electron-builder --mac"
+    "package": "electron-vite build && electron-builder --mac"
   },
   "dependencies": {
     "@vscode/sudo-prompt": "^9.3.2",

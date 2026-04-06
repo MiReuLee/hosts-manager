@@ -5,6 +5,9 @@ directories:
   output: dist
 files:
   - out/**/*
+  # 트레이 아이콘 — 메인에서 app.asar/resources/ 로 참조 (out만 넣으면 DMG에서 경로 없음)
+  - resources/tray-iconTemplate.png
+  - resources/tray-iconTemplate@2x.png
 mac:
   target:
     - dmg

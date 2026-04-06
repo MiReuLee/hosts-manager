@@ -6,6 +6,8 @@ export function useGroups() {
   const [groups, setGroups] = useState<HostGroup[]>([])
   const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+  const [dirty, setDirty] = useState(false)
+  const [syncing, setSyncing] = useState(false)
 
   useEffect(() => {
     api.getGroups().then((g) => {
@@ -22,6 +24,7 @@ export function useGroups() {
   const addGroup = useCallback(async (name: string) => {
     const updated = await api.addGroup(name)
     setGroups(updated)
+    setDirty(true)
     const newGroup = updated[updated.length - 1]
     if (newGroup) setSelectedGroupId(newGroup.id)
   }, [])
@@ -29,12 +32,14 @@ export function useGroups() {
   const updateGroup = useCallback(async (id: string, name: string) => {
     const updated = await api.updateGroup(id, name)
     setGroups(updated)
+    setDirty(true)
   }, [])
 
   const deleteGroup = useCallback(
     async (id: string) => {
       const updated = await api.deleteGroup(id)
       setGroups(updated)
+      setDirty(true)
       if (selectedGroupId === id) {
         setSelectedGroupId(updated.length > 0 ? updated[0].id : null)
       }
@@ -45,6 +50,7 @@ export function useGroups() {
   const toggleGroup = useCallback(async (id: string) => {
     const updated = await api.toggleGroup(id)
     setGroups(updated)
+    setDirty(true)
   }, [])
 
   const addEntry = useCallback(
@@ -52,6 +58,7 @@ export function useGroups() {
       if (!selectedGroupId) return
       const updated = await api.addEntry(selectedGroupId, ip, hostname)
       setGroups(updated)
+      setDirty(true)
     },
     [selectedGroupId]
   )
@@ -61,6 +68,7 @@ export function useGroups() {
       if (!selectedGroupId) return
       const updated = await api.updateEntry(selectedGroupId, entryId, ip, hostname)
       setGroups(updated)
+      setDirty(true)
     },
     [selectedGroupId]
   )
@@ -70,9 +78,20 @@ export function useGroups() {
       if (!selectedGroupId) return
       const updated = await api.deleteEntry(selectedGroupId, entryId)
       setGroups(updated)
+      setDirty(true)
     },
     [selectedGroupId]
   )
+
+  const sync = useCallback(async () => {
+    setSyncing(true)
+    try {
+      await api.sync()
+      setDirty(false)
+    } finally {
+      setSyncing(false)
+    }
+  }, [])
 
   return {
     groups,
@@ -80,12 +99,15 @@ export function useGroups() {
     selectedGroupId,
     setSelectedGroupId,
     loading,
+    dirty,
+    syncing,
     addGroup,
     updateGroup,
     deleteGroup,
     toggleGroup,
     addEntry,
     updateEntry,
-    deleteEntry
+    deleteEntry,
+    sync
   }
 }

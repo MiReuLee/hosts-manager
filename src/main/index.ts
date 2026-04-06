@@ -1,4 +1,4 @@
-import { app, nativeImage, BrowserWindow } from 'electron'
+import { app, nativeImage, BrowserWindow, Menu } from 'electron'
 import { menubar } from 'menubar'
 import path from 'path'
 import { registerIpcHandlers } from './ipc-handlers'
@@ -6,7 +6,7 @@ import { registerIpcHandlers } from './ipc-handlers'
 const isDev = !app.isPackaged
 
 app.whenReady().then(() => {
-  const iconPath = path.join(__dirname, '../../resources/tray-iconTemplate.png')
+  const iconPath = path.join(app.getAppPath(), 'resources/tray-iconTemplate.png')
   const icon = nativeImage.createFromPath(iconPath)
 
   const indexUrl = isDev
@@ -33,6 +33,13 @@ app.whenReady().then(() => {
 
   mb.on('ready', () => {
     registerIpcHandlers()
+
+    const contextMenu = Menu.buildFromTemplate([
+      { label: '종료', click: () => app.quit() }
+    ])
+    mb.tray.on('right-click', () => {
+      mb.tray.popUpContextMenu(contextMenu)
+    })
 
     if (isDev) {
       mb.window?.webContents.openDevTools({ mode: 'detach' })

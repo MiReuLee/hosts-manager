@@ -12,7 +12,9 @@ const electronAPI = {
   updateEntry: (groupId: string, entryId: string, ip: string, hostname: string) =>
     ipcRenderer.invoke('hosts:update-entry', groupId, entryId, ip, hostname),
   deleteEntry: (groupId: string, entryId: string) =>
-    ipcRenderer.invoke('hosts:delete-entry', groupId, entryId)
+    ipcRenderer.invoke('hosts:delete-entry', groupId, entryId),
+  sync: () => ipcRenderer.invoke('hosts:sync'),
+  quit: () => ipcRenderer.invoke('app:quit')
 }
 
 contextBridge.exposeInMainWorld('electronAPI', electronAPI)
