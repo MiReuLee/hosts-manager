@@ -72,7 +72,7 @@ export default function App() {
                 : 'bg-[#2a2a4a] text-[#555577] cursor-default'
             }`}
           >
-            {syncing ? 'Syncing...' : 'Sync'}
+            {syncing ? '동기화 중...' : '동기화'}
           </button>
           <button
             onClick={() => api.quit()}

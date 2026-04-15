@@ -50,7 +50,7 @@ export default function HostEntryList({
                 : 'bg-[#3a3a5c]/30 text-[#666688]'
             }`}
           >
-            {group.enabled ? 'ON' : 'OFF'}
+            {group.enabled ? '활성' : '비활성'}
           </span>
         </div>
         <button

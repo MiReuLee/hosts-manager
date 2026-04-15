@@ -21,6 +21,11 @@ export default function GroupItem({
   const [editing, setEditing] = useState(false)
   const [editName, setEditName] = useState(group.name)
 
+  const startEditing = () => {
+    setEditName(group.name)
+    setEditing(true)
+  }
+
   const handleRename = () => {
     const name = editName.trim()
     if (name && name !== group.name) {
@@ -43,7 +48,7 @@ export default function GroupItem({
           e.stopPropagation()
           onToggle()
         }}
-        className={`w-8 h-4 rounded-full relative flex-shrink-0 transition-colors ${
+        className={`w-8 h-4 rounded-full relative shrink-0 transition-colors ${
           group.enabled ? 'bg-[#6c6cf0]' : 'bg-[#3a3a5c]'
         }`}
       >
@@ -74,17 +79,27 @@ export default function GroupItem({
           }`}
           onDoubleClick={(e) => {
             e.stopPropagation()
-            setEditName(group.name)
-            setEditing(true)
+            startEditing()
           }}
         >
           {group.name}
         </span>
       )}
 
-      <span className="text-[10px] text-[#555577] flex-shrink-0">
+      <span className="text-[10px] text-[#555577] shrink-0">
         {group.entries.length}
       </span>
+
+      <button
+        onClick={(e) => {
+          e.stopPropagation()
+          startEditing()
+        }}
+        className="text-[#555577] hover:text-[#8888ff] opacity-0 group-hover:opacity-100 text-xs shrink-0"
+        title="이름 변경"
+      >
+        이름변경
+      </button>
 
       <button
         onClick={(e) => {
@@ -93,7 +108,7 @@ export default function GroupItem({
             onDelete()
           }
         }}
-        className="text-[#555577] hover:text-red-400 opacity-0 group-hover:opacity-100 text-xs flex-shrink-0"
+        className="text-[#555577] hover:text-red-400 opacity-0 group-hover:opacity-100 text-xs shrink-0"
       >
         x
       </button>

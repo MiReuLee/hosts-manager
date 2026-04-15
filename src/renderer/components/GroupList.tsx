@@ -37,7 +37,7 @@ export default function GroupList({
     <div className="flex flex-col h-full bg-[#16162a]">
       <div className="flex items-center justify-between px-3 py-2 border-b border-[#2a2a4a]">
         <span className="text-xs font-semibold text-[#8888aa] uppercase tracking-wider">
-          Groups
+          그룹
         </span>
         <button
           onClick={() => setAdding(true)}
